@@ -23,11 +23,7 @@ trait Message
      */
     public function getSetting($key, $default = null)
     {
-        $value = Yii::$app->settings->get($key, 'user', $default);
-        if ($key == 'avatarUrl' || $key == 'avatarPath') {
-            return Yii::getAlias($value);
-        }
-        return $value;
+        return Yii::$app->settings->get($key, 'message', $default);
     }
 
     /**
@@ -35,7 +31,7 @@ trait Message
      */
     public function getModule()
     {
-        return Yii::$app->getModule('user');
+        return Yii::$app->getModule('message');
     }
 
     /**
