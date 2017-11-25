@@ -26,9 +26,6 @@
         "basePath": "@yuncms/message/messages"
       },
       "migrationNamespace": "yuncms\\message\\migrations",
-      "backend": {
-        "class": "yuncms\\message\\backend\\Module"
-      },
       "frontend": {
         "class": "yuncms\\message\\frontend\\Module"
       }
