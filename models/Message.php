@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2012 TintSoft Technology Co. Ltd.
  * @license http://www.tintsoft.com/license/
  */
+
 namespace yuncms\message\models;
 
 use Yii;
@@ -46,7 +47,15 @@ class Message extends ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior'
+            ],
+            'blameable' => [
+                'class' => 'yii\behaviors\BlameableBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'from_id',
+                ],
+            ]
         ];
     }
 
@@ -57,8 +66,10 @@ class Message extends ActiveRecord
     {
         return [
             [['user_id', 'message'], 'required'],
-            [['from_id', 'user_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'status'], 'integer'],
             [['message'], 'string', 'max' => 750],
+            [['parent'], 'exist', 'skipOnError' => true, 'targetClass' => static::className(), 'targetAttribute' => ['parent' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['status'], 'default', 'value' => static::STATUS_NEW],
             ['status', 'in', 'range' => [static::STATUS_NEW, static::STATUS_READ], 'message' => Yii::t('message', 'Incorrect status')],
         ];
