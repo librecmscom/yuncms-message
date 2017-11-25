@@ -99,7 +99,7 @@ class Message extends ActiveRecord
      */
     public function getFrom()
     {
-        return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'from_id']);
+        return $this->hasOne(User::className(), ['id' => 'from_id']);
     }
 
     /**
@@ -107,7 +107,7 @@ class Message extends ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**
